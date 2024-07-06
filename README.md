@@ -7,12 +7,12 @@ Este projeto consiste no desenvolvimento de uma API Restful utilizando Node.js e
 - Node.js com TypeScript
 - Express
 - MongoDB
-- Mongoose ou TypeORM
+- TypeORM
 - Swagger para documentação
 - JWT para autenticação
 - Eslint e Prettier para manter o padrão do código
 - Jest para testes
-- Joi, express-validator, yup ou zod para validação de rotas e payload/body
+- Zod para validação de rotas e payload/body
 
 ## Funcionalidades
 - **Vendedores**: CRUD de vendedores.
@@ -46,19 +46,16 @@ Este projeto consiste no desenvolvimento de uma API Restful utilizando Node.js e
 Instale as dependências:
 
 sh
-Copy code
 npm install
 Configure as variáveis de ambiente:
 Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
 
 env
-Copy code
 MONGO_URI=sua_mongo_uri
 JWT_SECRET=sua_chave_secreta
 Inicie o servidor:
 
 sh
-Copy code
 npm run start
 
 Endpoints da API
