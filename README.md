@@ -60,27 +60,63 @@ Inicie o servidor:
 sh
 Copy code
 npm run start
+
 Endpoints da API
 Vendedores
-GET /api/v1/vendedores: Lista todos os vendedores
-GET /api/v1/vendedores/:id: Obtém um vendedor específico
-POST /api/v1/vendedores: Cria um novo vendedor
-PUT /api/v1/vendedores/:id: Atualiza um vendedor existente
-DELETE /api/v1/vendedores/:id: Deleta um vendedor
+Listar todos os vendedores
+http
+GET /api/v1/vendedores
+
+Obter um vendedor específico
+http
+GET /api/v1/vendedores/:id
+
+Criar um novo vendedor
+http
+POST /api/v1/vendedores
+
+Atualizar um vendedor existente
+http
+PUT /api/v1/vendedores/:id
+
+Deletar um vendedor
+http
+DELETE /api/v1/vendedores/:id
+
 Oficinas
-GET /api/v1/oficinas: Lista todas as oficinas
-GET /api/v1/oficinas/:id: Obtém uma oficina específica
-POST /api/v1/oficinas: Cria uma nova oficina
-PUT /api/v1/oficinas/:id: Atualiza uma oficina existente
-DELETE /api/v1/oficinas/:id: Deleta uma oficina
+Listar todas as oficinas
+http
+GET /api/v1/oficinas
+
+Obter uma oficina específica
+http
+GET /api/v1/oficinas/:id
+
+Criar uma nova oficina
+http
+POST /api/v1/oficinas
+
+Atualizar uma oficina existente
+http
+PUT /api/v1/oficinas/:id
+
+Deletar uma oficina
+http
+DELETE /api/v1/oficinas/:id
+
 Autenticação
-POST /api/v1/auth/register: Registra um novo usuário
-POST /api/v1/auth/login: Realiza login de um usuário
+
+Registrar um novo usuário
+http
+POST /api/v1/auth/register
+
+Realizar login de um usuário
+http
+POST /api/v1/auth/login
+
 Testes
 Para rodar os testes, utilize:
-
 sh
-Copy code
 npm run test
 Documentação
 A documentação da API pode ser acessada através do Swagger na rota /api-docs.
