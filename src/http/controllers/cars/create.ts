@@ -14,7 +14,7 @@ export class CreateCarController {
       model: z.string(),
       color: z.string(),
       year: z.string(),
-      value_per_day: z.number(),
+      value_per_day: z.coerce.number(),
       accessories: z.array(
         z.object({
           description: z.string(),
@@ -22,25 +22,24 @@ export class CreateCarController {
       ),
       number_of_passengers: z.number(),
     })
-
-    const {
-      accessories,
-      color,
-      model,
-      number_of_passengers,
-      value_per_day,
-      year,
-    } = createCarSchema.parse(req.body)
-
-    const accessoriesParsed = accessories
-      .map(({ description }) => {
-        if (description !== undefined) {
-          return description
-        } else return null
-      })
-      .filter(Boolean)
-
     try {
+      const {
+        accessories,
+        color,
+        model,
+        number_of_passengers,
+        value_per_day,
+        year,
+      } = createCarSchema.parse(req.body)
+
+      const accessoriesParsed = accessories
+        .map(({ description }) => {
+          if (description !== undefined) {
+            return description
+          } else return null
+        })
+        .filter(Boolean)
+
       const car = await createCarUseCase.execute({
         model,
         color,

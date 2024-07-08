@@ -63,4 +63,12 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     this.users.splice(index, 1)
   }
+
+  async findByEmail(email: string): Promise<IUser | null> {
+    return this.users.find((user) => user.email === email) || null
+  }
+
+  async findByCpf(cpf: string): Promise<IUser | null> {
+    return this.users.find((user) => user.cpf === cpf) || null
+  }
 }

@@ -49,4 +49,20 @@ export class TypeOrmUsersRepository implements UsersRepository {
   async save(user: IUser): Promise<IUser> {
     return this.ormRepository.save(user)
   }
+
+  async findByEmail(email: string): Promise<IUser | null> {
+    const user = await this.ormRepository.findOneBy({ email })
+    if (!user) {
+      throw new ResourceNotFoundError()
+    }
+    return user
+  }
+
+  async findByCpf(cpf: string): Promise<IUser | null> {
+    const user = await this.ormRepository.findOneBy({ cpf })
+    if (!user) {
+      throw new ResourceNotFoundError()
+    }
+    return user
+  }
 }

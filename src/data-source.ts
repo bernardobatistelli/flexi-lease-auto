@@ -1,12 +1,12 @@
 import { DataSource } from 'typeorm'
 import { Car } from './entities/car'
-import { User } from './entities/user'
 
 export const AppDataSource = new DataSource({
   type: 'mongodb',
-  url: 'mongodb+srv://bebatistelli254:57YdGBS0SGjcbsdn@flexilease.r1fkdtg.mongodb.net/?retryWrites=true&w=majority&appName=flexilease',
+  url: 'mongodb://localhost:27017',
+  logging: 'all',
   synchronize: true,
-  entities: [Car, User],
+  entities: [Car],
   // username: 'bebatistelli254',
   // password: '57YdGBS0SGjcbsdn',
   // database: 'flexilease',
