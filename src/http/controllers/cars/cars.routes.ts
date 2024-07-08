@@ -5,7 +5,6 @@ import { GetCarByIdController } from './get-by-id'
 import { ListCarsController } from './list'
 import { UpdateCarController } from './update'
 
-
 const CarRouter = Router({
   mergeParams: true,
 })

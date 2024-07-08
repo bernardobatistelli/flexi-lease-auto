@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
 import { IUser } from '../../@types/interfaces/user-interface'
-import { ResourceNotFoundError } from '../../use-cases/errors/resource-not-found'
 import { UsersRepository } from '../users-repository'
 import { CreateUserDTO } from '../../@types/DTOs/users/create-user-dto'
 import { UpdateUserDTO } from '../../@types/DTOs/users/update-user-dto'
@@ -48,11 +47,14 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
-  async update(id: string, data: UpdateUserDTO): Promise<IUser> {
-    const user = this.users.find((user) => user.id === id)
-    if (!user) throw new ResourceNotFoundError()
-    Object.assign(user, data)
-    return user
+  async update(data: UpdateUserDTO): Promise<IUser> {
+    const index = this.users.findIndex((user) => user.id === data.id)
+
+    if (index === -1) {
+      return data
+    }
+
+    this.users[index] = data
   }
 
   async delete(id: string): Promise<void> {
