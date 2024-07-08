@@ -1,10 +1,11 @@
-import { ObjectId, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { CreateUserDTO } from '../../@types/DTOs/users/create-user-dto'
 import { UpdateUserDTO } from '../../@types/DTOs/users/update-user-dto'
 import { IUser } from '../../@types/interfaces/user-interface'
 import { AppDataSource } from '../../data-source'
 import { User } from '../../entities/user'
 import { UsersRepository } from '../users-repository'
+import { ObjectId } from 'mongodb'
 
 export class TypeOrmUsersRepository implements UsersRepository {
   private ormRepository: Repository<User>
@@ -21,12 +22,12 @@ export class TypeOrmUsersRepository implements UsersRepository {
     return users.map((user) => user as unknown as IUser)
   }
 
-  async findById(id: string): Promise<IUser | null> {
-    const user = await this.ormRepository.findOneBy({ _id: new ObjectId(id) })
-    if (!user) {
-      return null
-    }
-    return user as unknown as IUser
+  public async findById(id: string): Promise<IUser | null> {
+    const car = await this.ormRepository.findOneBy({
+      _id: new ObjectId(id),
+    })
+
+    return (car as unknown as IUser) || null
   }
 
   async create(data: CreateUserDTO): Promise<IUser> {
@@ -35,7 +36,7 @@ export class TypeOrmUsersRepository implements UsersRepository {
     return user as unknown as IUser
   }
 
-  async update(id: string, data: UpdateUserDTO): Promise<IUser> {
+  async update(data: UpdateUserDTO): Promise<IUser> {
     const user = await this.ormRepository.save(data)
 
     return user as unknown as IUser

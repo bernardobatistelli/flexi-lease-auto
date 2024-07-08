@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb'
-import { Column, Entity, ObjectIdColumn, Unique } from 'typeorm'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 
 @Entity()
-@Unique(['cpf'])
 export class User {
   @ObjectIdColumn()
   _id: ObjectId
@@ -22,7 +21,7 @@ export class User {
   @Column()
   password: string
 
-  @Column({ name: 'cpf' })
+  @Column()
   cep: string
 
   @Column()

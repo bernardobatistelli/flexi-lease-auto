@@ -8,7 +8,7 @@ export interface UsersRepository {
   findByEmail: (email: string) => Promise<IUser | null>
   findByCpf: (cpf: string) => Promise<IUser | null>
   create: (data: CreateUserDTO) => Promise<IUser>
-  update: (id: string, data: UpdateUserDTO) => Promise<IUser>
+  update: (data: UpdateUserDTO) => Promise<IUser | null>
   delete: (id: string) => Promise<void>
   save: (user: IUser) => Promise<IUser>
 }
