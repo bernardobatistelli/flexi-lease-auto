@@ -1,9 +1,42 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as express from 'express'
+import { AppDataSource } from './data-source'
+import 'dotenv/config'
 
-const app = express()
+// import { Request, Response } from 'express'
 
-const port = 3000
+import * as bodyParser from 'body-parser'
 
-app.listen(port)
+AppDataSource.initialize()
+  .then(async () => {
+    const app = express()
+    app.use(bodyParser.json())
 
-console.log(`Server running on port ${port}`)
+    // Routes.forEach((route) => {
+    //   ;(app as any)[route.method](
+    //     route.route,
+    //     (req: Request, res: Response, next: Function) => {
+    //       const result = new (route.controller as any)()[route.action](
+    //         req,
+    //         res,
+    //         next,
+    //       )
+    //       if (result instanceof Promise) {
+    //         result.then((result) =>
+    //           result !== null && result !== undefined
+    //             ? res.send(result)
+    //             : undefined,
+    //         )
+    //       } else if (result !== null && result !== undefined) {
+    //         res.json(result)
+    //       }
+    //     },
+    //   )
+    // })
+
+    app.listen(process.env.PORT)
+
+    console.log(`Express server started on port ${process.env.PORT}`)
+  })
+  .catch((error) => console.error(error))
