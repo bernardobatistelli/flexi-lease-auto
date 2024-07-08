@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, Generated } from 'typeorm'
 
 type Accessories = {
   description: string
@@ -7,7 +7,7 @@ type Accessories = {
 @Entity()
 export class Car {
   @PrimaryGeneratedColumn('uuid')
-  id: number
+  id: string
 
   @Column()
   model: string
@@ -22,6 +22,7 @@ export class Car {
   value_per_day: number
 
   @Column()
+  @Generated('rowid')
   accessories: Accessories[]
 
   @Column()
