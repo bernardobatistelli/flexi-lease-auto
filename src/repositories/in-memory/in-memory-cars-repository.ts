@@ -91,4 +91,10 @@ export class InMemoryCarsRepository implements CarsRepository {
 
     return accessory
   }
+
+  async save(car: ICar): Promise<ICar> {
+    this.items.push(car)
+
+    return car
+  }
 }

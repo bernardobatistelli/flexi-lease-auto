@@ -1,9 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, Generated } from 'typeorm'
 
-type Accessories = {
-  description: string
-}
-
 @Entity()
 export class Car {
   @PrimaryGeneratedColumn('uuid')
@@ -23,7 +19,7 @@ export class Car {
 
   @Column()
   @Generated('rowid')
-  accessories: Accessories[]
+  accessories: { description: string }[]
 
   @Column()
   number_of_passengers: number
