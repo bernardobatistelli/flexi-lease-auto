@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 import { CreateUserDTO } from '../../@types/DTOs/users/create-user-dto'
 import { UsersRepository } from '../../repositories/users-repository'
 import { isValidAge } from '../../utils/is-valid-age'

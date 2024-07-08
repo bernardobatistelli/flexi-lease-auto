@@ -1,8 +1,7 @@
+import { Request, Response } from 'express'
 import { z } from 'zod'
 import { TypeOrmUsersRepository } from '../../../repositories/typeorm/typeorm-users-repository'
 import { CreateUserUseCase } from '../../../use-cases/users/create-user'
-import { Request, Response } from 'express'
-import axios from 'axios'
 
 export class CreateUserController {
   async execute(req: Request, res: Response) {
@@ -10,32 +9,67 @@ export class CreateUserController {
     const createUserUseCase = new CreateUserUseCase(usersRepository)
 
     const createUserSchema = z.object({
-      // name: z.string(),
-      // email: z.string(),
-      // cpf: z.string(),
-      // birth: z.string(),
-      // password: z.string(),
+      name: z.string(),
+      cpf: z.string(),
+      birth: z.string(),
+      email: z.string(),
+      password: z.string(),
       cep: z.string(),
-      // qualified: z.boolean(),
-      // patio: z.string(),
-      // complement: z.string(),
-      // neighborhood: z.string(),
-      // locality: z.string(),
-      // uf: z.string(),
+      qualified: z.coerce.boolean(),
+    })
+
+    type locationDetails = {
+      patio: string
+      complement: string
+      neighborhood: string
+      locality: string
+      uf: string
+    }
+
+    const cepResponseSchema = z.object({
+      cep: z.string(),
+      logradouro: z.string(),
+      complemento: z.string(),
+      bairro: z.string(),
+      localidade: z.string(),
+      uf: z.string(),
     })
 
     try {
-      const { cep } = createUserSchema.parse(req.body)
-      console.log(cep)
+      const { birth, cep, cpf, email, name, password, qualified } =
+        createUserSchema.parse(req.body)
 
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json`)
+      const response = await fetch('https://viacep.com.br/ws/${cep}/json')
+
       const data = await response.json()
 
       console.log(data)
 
-      return res.status(200).json(data)
-    } catch (err) {
-      return res.status(400).json({ error: err.errors })
+      const parsedData = cepResponseSchema.parse(data)
+
+      const location: locationDetails = {
+        complement: parsedData.complemento,
+        locality: parsedData.localidade,
+        uf: parsedData.uf,
+        neighborhood: parsedData.bairro,
+        patio: parsedData.logradouro,
+      }
+
+      const user = await createUserUseCase.execute({
+        ...location,
+        birth,
+        cep,
+        cpf,
+        email,
+        name,
+        password,
+        qualified,
+      })
+
+      return res.status(200).json(user)
+    } catch (error) {
+      console.log(error)
+      return res.status(400).json({ error })
     }
   }
 }

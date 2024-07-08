@@ -1,11 +1,10 @@
-import { Repository } from 'typeorm'
-import { IUser } from '../../@types/interfaces/user-interface'
-import { UsersRepository } from '../users-repository'
-import { User } from '../../entities/user'
-import { AppDataSource } from '../../data-source'
-import { ResourceNotFoundError } from '../../use-cases/errors/resource-not-found'
+import { ObjectId, Repository } from 'typeorm'
 import { CreateUserDTO } from '../../@types/DTOs/users/create-user-dto'
 import { UpdateUserDTO } from '../../@types/DTOs/users/update-user-dto'
+import { IUser } from '../../@types/interfaces/user-interface'
+import { AppDataSource } from '../../data-source'
+import { User } from '../../entities/user'
+import { UsersRepository } from '../users-repository'
 
 export class TypeOrmUsersRepository implements UsersRepository {
   private ormRepository: Repository<User>
@@ -17,52 +16,52 @@ export class TypeOrmUsersRepository implements UsersRepository {
   async findAll(): Promise<IUser[] | null> {
     const users = await this.ormRepository.find()
     if (!users) {
-      throw new ResourceNotFoundError()
+      return null
     }
-    return users
+    return users.map((user) => user as unknown as IUser)
   }
 
   async findById(id: string): Promise<IUser | null> {
-    const user = await this.ormRepository.findOneBy({ id })
+    const user = await this.ormRepository.findOneBy({ _id: new ObjectId(id) })
     if (!user) {
-      throw new ResourceNotFoundError()
+      return null
     }
-    return user
+    return user as unknown as IUser
   }
 
   async create(data: CreateUserDTO): Promise<IUser> {
     const user = this.ormRepository.create(data)
     await this.ormRepository.save(user)
-    return user
+    return user as unknown as IUser
   }
 
   async update(id: string, data: UpdateUserDTO): Promise<IUser> {
     const user = await this.ormRepository.save(data)
 
-    return user
+    return user as unknown as IUser
   }
 
   async delete(id: string): Promise<void> {
-    await this.ormRepository.delete(id)
+    await this.ormRepository.delete({ _id: new ObjectId(id) })
   }
 
   async save(user: IUser): Promise<IUser> {
-    return this.ormRepository.save(user)
+    return this.ormRepository.save(user as unknown as User) as unknown as IUser
   }
 
   async findByEmail(email: string): Promise<IUser | null> {
     const user = await this.ormRepository.findOneBy({ email })
     if (!user) {
-      throw new ResourceNotFoundError()
+      return null
     }
-    return user
+    return user as unknown as IUser
   }
 
   async findByCpf(cpf: string): Promise<IUser | null> {
     const user = await this.ormRepository.findOneBy({ cpf })
     if (!user) {
-      throw new ResourceNotFoundError()
+      return null
     }
-    return user
+    return user as unknown as IUser
   }
 }

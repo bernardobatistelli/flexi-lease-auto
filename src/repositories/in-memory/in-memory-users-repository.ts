@@ -1,8 +1,9 @@
 import { randomUUID } from 'node:crypto'
-import { CreateUserDTO } from '../../@types/DTOs/users/create-user-dto'
+
 import { IUser } from '../../@types/interfaces/user-interface'
-import { UsersRepository } from '../users-repository'
 import { ResourceNotFoundError } from '../../use-cases/errors/resource-not-found'
+import { UsersRepository } from '../users-repository'
+import { CreateUserDTO } from '../../@types/DTOs/users/create-user-dto'
 import { UpdateUserDTO } from '../../@types/DTOs/users/update-user-dto'
 
 export class InMemoryUsersRepository implements UsersRepository {

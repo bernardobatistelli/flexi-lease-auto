@@ -1,10 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { ObjectId } from 'mongodb'
+import { Column, Entity, ObjectIdColumn, Unique } from 'typeorm'
 
 @Entity()
 @Unique(['cpf'])
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
+  @ObjectIdColumn()
+  _id: ObjectId
 
   @Column()
   name: string
@@ -28,7 +29,7 @@ export class User {
   qualified: boolean
 
   @Column()
-  patio: string
+  logradouro: string
 
   @Column()
   complement: string

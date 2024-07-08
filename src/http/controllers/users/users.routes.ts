@@ -11,7 +11,5 @@ const createUserController = new CreateUserController()
 UserRouter.post('/', createUserController.execute)
 // router.put('/:id', carController.updateCar)
 // router.delete('/:id', carController.deleteCar)
-
 // router.use('/:car_id/sessions', sessionRoutes)
-
 export default UserRouter
