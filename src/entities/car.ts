@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, Generated } from 'typeorm'
+import { ObjectId } from 'mongodb'
+import { Column, Entity, Generated, ObjectIdColumn } from 'typeorm'
 
 @Entity()
 export class Car {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
+  @ObjectIdColumn()
+  _id: ObjectId
 
   @Column()
   model: string

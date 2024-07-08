@@ -1,0 +1,33 @@
+meta {
+  name: Update Car
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:3000/api/v1/car/668c202db894f0a0b6e3b260
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "model": "GHM S10",
+    "color": "White 2.8",
+    "year_per_day": 50,
+    "value_per_day": 30,
+    "year": "2005",
+    "accessories": [
+      {
+        "description": "air conditioning"
+      },
+      {
+        "description": "4 portsasdada"
+      },
+      {
+        "description": "4x4 traction"
+      }
+    ],
+    "number_of_passengers": 5
+  }
+}

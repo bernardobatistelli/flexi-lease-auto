@@ -5,9 +5,19 @@ import { ICar } from '../@types/interfaces/car-interface'
 import { IFindAllCars } from '../@types/interfaces/find-all-cars-interface'
 import { IAcessory } from '../@types/interfaces/update-accessory'
 
+export interface CarPaginationParms {
+  color?: string
+  model?: string
+  number_of_passengers?: number
+  value_per_day?: number
+  year?: string
+  page?: number
+  perPage?: number
+}
+
 export interface CarsRepository {
   create(data: CreateCarDto): Promise<ICar>
-  findAll(): Promise<IFindAllCars | null>
+  findAll(params: CarPaginationParms): Promise<IFindAllCars | null>
   findById(id: string): Promise<ICar | null>
   delete(id: string): Promise<void>
   update(data: UpdateCarDto): Promise<ICar | null>
