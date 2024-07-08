@@ -39,7 +39,7 @@ export class CreateUserController {
       const { birth, cep, cpf, email, name, password, qualified } =
         createUserSchema.parse(req.body)
 
-      const response = await fetch('https://viacep.com.br/ws/${cep}/json')
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json`)
 
       const data = await response.json()
 

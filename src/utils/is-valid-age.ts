@@ -1,9 +1,9 @@
-import { parseISO, differenceInYears, isValid } from 'date-fns'
+import { differenceInYears, isValid } from 'date-fns'
 import { InvalidBirthFormat } from '../use-cases/errors/invalid-birth'
 import { UnderageError } from '../use-cases/errors/underage'
 
 export const isValidAge = (birthDateString: string): boolean => {
-  const birthDate = parseISO(birthDateString)
+  const birthDate = new Date(birthDateString)
 
   if (!isValid(birthDate)) {
     throw new InvalidBirthFormat()
