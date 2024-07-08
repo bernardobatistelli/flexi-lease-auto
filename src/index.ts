@@ -7,6 +7,7 @@ import 'dotenv/config'
 // import { Request, Response } from 'express'
 
 import * as bodyParser from 'body-parser'
+import routes from './http/controllers/routes'
 
 AppDataSource.initialize()
   .then(async () => {
@@ -36,6 +37,7 @@ AppDataSource.initialize()
     // })
 
     app.listen(process.env.PORT)
+    app.use('/api/v1/', routes)
 
     console.log(`Express server started on port ${process.env.PORT}`)
   })

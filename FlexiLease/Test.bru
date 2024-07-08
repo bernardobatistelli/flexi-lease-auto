@@ -4,8 +4,14 @@ meta {
   seq: 2
 }
 
-get {
-  url: http://localhost:3000
-  body: none
+post {
+  url: http://localhost:3000/api/v1/user
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "cep": "99838-000"
+  }
 }
