@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "FlexiLease",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

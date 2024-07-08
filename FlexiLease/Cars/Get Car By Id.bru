@@ -1,0 +1,33 @@
+meta {
+  name: Get Car By Id
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:3000/api/v1/car/668c202db894f0a0b6e3b260
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "model": "GHM S10",
+    "color": "White 2.8",
+    "year_per_day": 50,
+    "value_per_day": 30,
+    "year": "2021",
+    "accessories": [
+      {
+        "description": "air conditioning"
+      },
+      {
+        "description": "4 ports"
+      },
+      {
+        "description": "4x4 traction"
+      }
+    ],
+    "number_of_passengers": 5
+  }
+}
