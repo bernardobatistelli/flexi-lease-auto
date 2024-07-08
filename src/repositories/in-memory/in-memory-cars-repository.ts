@@ -50,13 +50,7 @@ export class InMemoryCarsRepository implements CarsRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const index = this.items.findIndex((item) => item.id === id)
-
-    if (index === -1) {
-      return
-    }
-
-    this.items.splice(index, 1)
+    this.items = this.items.filter(car => car.id !== id);
   }
 
   async update(car: UpdateCarDto): Promise<ICar> {
