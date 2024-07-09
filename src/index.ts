@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as express from 'express'
+import express from 'express'
 import { AppDataSource } from './data-source'
 import 'dotenv/config'
+import * as swaggerUi from 'swagger-ui-express'
+
+import swaggerDocs from './swagger-output.json'
 
 // import { Request, Response } from 'express'
 
@@ -38,6 +41,7 @@ AppDataSource.initialize()
 
     app.listen(process.env.PORT)
     app.use('/api/v1/', routes)
+    app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
     console.log(`Express server started on port ${process.env.PORT}`)
   })
