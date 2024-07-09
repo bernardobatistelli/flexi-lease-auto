@@ -1,17 +1,18 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
+import { env } from '../../env'
 
-export function verifyToken(req: Request, res: Response) {
+export function verifyToken(req: Request, res: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(' ')[1]
-  console.log(token)
   if (!token) {
     return res.status(401).json({ message: 'No token provided' })
   }
+
   try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY)
-    req.body.user = decoded
-    console.log(req.body.user)
+    const decoded = jwt.verify(token, env.SECRET_KEY)
+    req.body.userId = decoded.sub
+    next()
   } catch (error) {
-    console.log(error)
+    return res.status(401).json({ message: 'Invalid token' })
   }
 }

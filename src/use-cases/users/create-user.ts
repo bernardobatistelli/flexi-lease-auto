@@ -22,6 +22,8 @@ export class CreateUserUseCase {
 
     isValidAge(data.birth)
 
-    await this.userRepository.create(data)
+    const user = await this.userRepository.create(data)
+
+    return user
   }
 }

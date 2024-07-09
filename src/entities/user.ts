@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { Column, Entity, ObjectIdColumn } from 'typeorm'
+import { Column, Entity, ObjectIdColumn, OneToMany } from 'typeorm'
+import { Reserve } from './reserve'
 
 @Entity()
 export class User {
@@ -41,4 +42,9 @@ export class User {
 
   @Column()
   uf: string
+
+  @OneToMany(() => Reserve, (reserve) => reserve.user, {
+    onDelete: 'CASCADE',
+  })
+  reserves: Reserve[]
 }

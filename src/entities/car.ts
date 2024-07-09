@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { Column, Entity, Generated, ObjectIdColumn } from 'typeorm'
+import { Column, Entity, Generated, ObjectIdColumn, OneToMany } from 'typeorm'
+import { Reserve } from './reserve'
 
 @Entity()
 export class Car {
@@ -24,4 +25,7 @@ export class Car {
 
   @Column()
   number_of_passengers: number
+
+  @OneToMany(() => Reserve, (reserve) => reserve.car, { onDelete: 'CASCADE' })
+  reserves: Reserve[]
 }
