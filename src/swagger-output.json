@@ -1,0 +1,306 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "FlexiLease Autos",
+    "description": "O projeto consiste no desenvolvimento de uma FULL API REST para uma locadora de carros, utilizando as tecnologias e conhecimentos aprendidos nos cursos.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter your bearer token in the format **Bearer &lt;token&gt;**"
+    }
+  },
+  "paths": {
+    "/car/": {
+      "get": {
+        "description": "Get a list of cars",
+        "tags": [
+          "Cars"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of cars"
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new car",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Car object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "src/@types/DTOs/cars/create-car-dto.ts"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Car added successfully"
+          }
+        }
+      }
+    },
+    "/car/{id}": {
+      "get": {
+        "description": "Get car by ID",
+        "tags": [
+          "Cars"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Car ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car details"
+          }
+        }
+      },
+      "put": {
+        "description": "Update car by ID",
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Car ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete car by ID",
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Car ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Car deleted successfully"
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "description": "Get a list of users",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of users"
+          }
+        }
+      },
+      "post": {
+        "description": "Register a new user",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered successfully"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "description": "Get user by ID",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details"
+          }
+        }
+      },
+      "put": {
+        "description": "Update user by ID",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user by ID",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "description": "User login",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Car": {
+      "type": "object",
+      "required": [
+        "make",
+        "model",
+        "year"
+      ],
+      "properties": {
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "name",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
