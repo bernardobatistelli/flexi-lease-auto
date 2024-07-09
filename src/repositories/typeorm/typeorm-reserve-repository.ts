@@ -5,8 +5,12 @@ import { Repository } from 'typeorm'
 import { IReserve } from '../../@types/interfaces/reserve-interface'
 import { AppDataSource } from '../../data-source'
 import { Reserve } from '../../entities/reserve'
-import { ReservesRepository } from '../reserves-repository'
+import {
+  ReservePaginationParms,
+  ReservesRepository,
+} from '../reserves-repository'
 import { CreateReserverDTO } from '../../@types/DTOs/reserves/create-reserve-dto'
+import { IFindAllReserves } from '../../@types/interfaces/find-all-reserve'
 
 export class TypeOrmReservesRepository implements ReservesRepository {
   private ormRepository: Repository<Reserve>
@@ -29,61 +33,61 @@ export class TypeOrmReservesRepository implements ReservesRepository {
     return reserve
   }
 
-  //   public async findAll({
-  //     perPage = 10,
-  //     page = 1,
-  //     end_date,
-  //     final_value,
-  //     id_reserve,
-  //     id_user,
-  //     start_date,
-  //   }: ReservePaginationParms): Promise<IFindAllReserves> {
-  //     const query: {
-  //       [key: string]: string | number
-  //     } = {}
+  public async findAll({
+    perPage = 10,
+    page = 1,
+    end_date,
+    final_value,
+    id_reserve,
+    id_user,
+    start_date,
+  }: ReservePaginationParms): Promise<IFindAllReserves> {
+    const query: {
+      [key: string]: string | number
+    } = {}
 
-  //     if (end_date) {
-  //       query.end_date = end_date
-  //     }
+    if (end_date) {
+      query.end_date = end_date
+    }
 
-  //     if (final_value) {
-  //       query.final_value = final_value
-  //     }
+    if (final_value) {
+      query.final_value = final_value
+    }
 
-  //     if (id_reserve) {
-  //       query.id_reserve = id_reserve
-  //     }
+    if (id_reserve) {
+      query.id_reserve = id_reserve
+    }
 
-  //     if (id_user) {
-  //       query.id_user = id_user
-  //     }
+    if (id_user) {
+      query.id_user = id_user
+    }
 
-  //     if (start_date) {
-  //       query.start_date = start_date
-  //     }
+    if (start_date) {
+      query.start_date = start_date
+    }
 
-  //     const [reserves, total] = await this.ormRepository.findAndCount({
-  //       where: query,
+    const [reserves, total] = await this.ormRepository.findAndCount({
+      where: query,
 
-  //       skip: perPage * (page - 1),
+      skip: perPage * (page - 1),
 
-  //       take: perPage,
-  //     })
+      take: perPage,
+    })
 
-  //     const findAllReserves: IFindAllReserves = {
-  //       reserve: reserves.map((reserve) => reserve as unknown as IReserve),
+    const findAllReserves: IFindAllReserves = {
+      reserve: reserves.map((reserve) => reserve as unknown as IReserve),
 
-  //       total,
+      total,
 
-  //       limit: perPage,
+      limit: perPage,
 
-  //       offset: page,
+      offset: page,
 
-  //       offsets: Math.ceil(total / perPage),
-  //     }
+      offsets: Math.ceil(total / perPage),
+    }
 
-  //     return findAllReserves
-  //   }
+    return findAllReserves
+  }
 
   public async findById(id: string): Promise<IReserve | null> {
     const reserve = await this.ormRepository.findOneBy({
