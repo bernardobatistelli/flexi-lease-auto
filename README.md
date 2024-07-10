@@ -37,6 +37,7 @@ Este projeto consiste no desenvolvimento de uma API Restful utilizando Node.js e
 ### Pré-requisitos
 - Node.js
 - MongoDB
+- Docker
 
 ### Passos
 1. Clone o repositório:
@@ -51,69 +52,29 @@ Configure as variáveis de ambiente:
 Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
 
 env
-MONGO_URI=sua_mongo_uri
+PORT=A porta da sua aplicação
 JWT_SECRET=sua_chave_secreta
+
+Suba um contâiner do docker rodando o comando docker compose up -d 
+(A flag -d é para o contâiner rodar no modo dettached)
+
 Inicie o servidor:
 
 sh
 npm run start
 
-Endpoints da API
-Vendedores
-Listar todos os vendedores
-http
-GET /api/v1/vendedores
-
-Obter um vendedor específico
-http
-GET /api/v1/vendedores/:id
-
-Criar um novo vendedor
-http
-POST /api/v1/vendedores
-
-Atualizar um vendedor existente
-http
-PUT /api/v1/vendedores/:id
-
-Deletar um vendedor
-http
-DELETE /api/v1/vendedores/:id
-
-Oficinas
-Listar todas as oficinas
-http
-GET /api/v1/oficinas
-
-Obter uma oficina específica
-http
-GET /api/v1/oficinas/:id
-
-Criar uma nova oficina
-http
-POST /api/v1/oficinas
-
-Atualizar uma oficina existente
-http
-PUT /api/v1/oficinas/:id
-
-Deletar uma oficina
-http
-DELETE /api/v1/oficinas/:id
-
-Autenticação
-
-Registrar um novo usuário
-http
-POST /api/v1/auth/register
-
-Realizar login de um usuário
-http
-POST /api/v1/auth/login
-
 Testes
 Para rodar os testes, utilize:
 sh
 npm run test
+
+Ou em modo watch
+sh 
+npm run test:watch
+
 Documentação
-A documentação da API pode ser acessada através do Swagger na rota /api-docs.
+A documentação da API pode ser acessada através do Swagger na rota /api/v1/docs.
+
+O projeto conta com a pasta FlexiLease na raiz dele. Essa pasta é gerada automaticamente pelo Bruno, 
+o API Client que escolhi para essa aplicação, pois é 
+um projeto open source que foi abraçado pela comunidade. Nele você encontra todos os payloads e rotas da aplicação para testar.

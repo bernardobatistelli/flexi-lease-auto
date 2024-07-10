@@ -15,10 +15,10 @@ const getReserveByIdController = new GetReserveByIdController()
 const deleteReserveController = new DeleteReserveController()
 const updateReserveController = new UpdateReserveController()
 
-ReserveRouter.get('/', listReservesController.execute)
-ReserveRouter.get('/:id', getReserveByIdController.execute)
+ReserveRouter.get('/', verifyToken, listReservesController.execute)
+ReserveRouter.get('/:id', verifyToken, getReserveByIdController.execute)
 ReserveRouter.post('/', verifyToken, createReserveController.execute)
-ReserveRouter.put('/:id', updateReserveController.execute)
-ReserveRouter.delete('/:id', deleteReserveController.execute)
+ReserveRouter.put('/:id', verifyToken, updateReserveController.execute)
+ReserveRouter.delete('/:id', verifyToken, deleteReserveController.execute)
 
 export default ReserveRouter

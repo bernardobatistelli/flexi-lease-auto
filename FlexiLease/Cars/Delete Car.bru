@@ -5,9 +5,9 @@ meta {
 }
 
 delete {
-  url: http://localhost:3000/api/v1/car/668c20e9e2ff9d408eadb8e8
+  url: http://localhost:3000/api/v1/car/:id
   body: json
-  auth: none
+  auth: Bearer token
 }
 
 body:json {

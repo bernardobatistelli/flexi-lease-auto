@@ -8,7 +8,7 @@ import { UpdateUserDTO } from '../../@types/DTOs/users/update-user-dto'
 export class InMemoryUsersRepository implements UsersRepository {
   private users: IUser[] = []
   async save(user: IUser) {
-    const userIndex = this.users.findIndex((item) => item.id === user.id)
+    const userIndex = this.users.findIndex((item) => item._id === user._id)
 
     if (userIndex >= 0) {
       this.users[userIndex] = user
@@ -22,12 +22,12 @@ export class InMemoryUsersRepository implements UsersRepository {
   }
 
   async findById(id: string): Promise<IUser | null> {
-    return this.users.find((user) => user.id === id) || null
+    return this.users.find((user) => user._id === id) || null
   }
 
   async create(data: CreateUserDTO): Promise<IUser> {
     const user = {
-      id: randomUUID(),
+      _id: randomUUID(),
       name: data.name,
       email: data.email,
       password: data.password,
@@ -48,7 +48,7 @@ export class InMemoryUsersRepository implements UsersRepository {
   }
 
   async update(data: UpdateUserDTO): Promise<IUser> {
-    const index = this.users.findIndex((user) => user.id === data.id)
+    const index = this.users.findIndex((user) => user._id === data._id)
 
     if (index === -1) {
       return data
@@ -58,7 +58,7 @@ export class InMemoryUsersRepository implements UsersRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const index = this.users.findIndex((user) => user.id === id)
+    const index = this.users.findIndex((user) => user._id === id)
 
     if (index === -1) {
       return

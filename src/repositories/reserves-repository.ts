@@ -1,4 +1,5 @@
 import { CreateReserverDTO } from '../@types/DTOs/reserves/create-reserve-dto'
+import { UpdateReserverDTO } from '../@types/DTOs/reserves/update-reserve-dto'
 import { IFindAllReserves } from '../@types/interfaces/find-all-reserve'
 import { IReserve } from '../@types/interfaces/reserve-interface'
 
@@ -17,10 +18,6 @@ export interface ReservesRepository {
   findAll(params: ReservePaginationParms): Promise<IFindAllReserves | null>
   findById(id: string): Promise<IReserve | null>
   delete(id: string): Promise<void>
-  //   update(data: UpdateReserveDto): Promise<IReserve | null>
-  //   updateAccessory(
-  //     data: UpdateAccessoryDTO,
-  //     id: string,
-  //   ): Promise<IAcessory | null>
+  update(data: UpdateReserverDTO): Promise<IReserve | null>
   save(reserve: IReserve): Promise<IReserve>
 }
