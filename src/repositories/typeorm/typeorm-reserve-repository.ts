@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable camelcase */
 import { ObjectId } from 'mongodb'
 import { Repository } from 'typeorm'
@@ -11,12 +12,17 @@ import {
 } from '../reserves-repository'
 import { CreateReserverDTO } from '../../@types/DTOs/reserves/create-reserve-dto'
 import { IFindAllReserves } from '../../@types/interfaces/find-all-reserve'
+import { UpdateReserverDTO } from '../../@types/DTOs/reserves/update-reserve-dto'
 
 export class TypeOrmReservesRepository implements ReservesRepository {
   private ormRepository: Repository<Reserve>
 
   constructor() {
     this.ormRepository = AppDataSource.getRepository(Reserve)
+  }
+
+  update(data: UpdateReserverDTO): Promise<IReserve | null> {
+    throw new Error('Method not implemented.')
   }
 
   public async create(data: CreateReserverDTO): Promise<IReserve> {

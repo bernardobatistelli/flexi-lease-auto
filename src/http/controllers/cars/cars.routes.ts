@@ -4,6 +4,7 @@ import { DeleteCarController } from './delete'
 import { GetCarByIdController } from './get-by-id'
 import { ListCarsController } from './list'
 import { UpdateCarController } from './update'
+import { verifyToken } from '../../middlewares/auth-middleware'
 
 const CarRouter = Router({
   mergeParams: true,
@@ -14,10 +15,10 @@ const deleteCarController = new DeleteCarController()
 const getCarByIdController = new GetCarByIdController()
 const updateCarController = new UpdateCarController()
 
-CarRouter.get('/', listCarsController.execute)
-CarRouter.get('/:id', getCarByIdController.execute)
-CarRouter.post('/', createCarController.execute)
-CarRouter.put('/:id', updateCarController.execute)
-CarRouter.delete('/:id', deleteCarController.execute)
+CarRouter.get('/', verifyToken, listCarsController.execute)
+CarRouter.get('/:id', verifyToken, getCarByIdController.execute)
+CarRouter.post('/', verifyToken, createCarController.execute)
+CarRouter.put('/:id', verifyToken, updateCarController.execute)
+CarRouter.delete('/:id', verifyToken, deleteCarController.execute)
 
 export default CarRouter

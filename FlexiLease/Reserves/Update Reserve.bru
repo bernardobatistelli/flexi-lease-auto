@@ -1,0 +1,21 @@
+meta {
+  name: Update Reserve
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:3000/api/v1/reserve/:id
+  body: json
+  auth: Bearer token
+}
+
+body:json {
+  {
+    "start_date": "20/05/2023",
+    "end_date": "30/05/2023",
+    "id_car": "668c6bedf94594c5010f089c",
+    "id_user": "21313213",
+    "final_value": "250"
+  } 
+}

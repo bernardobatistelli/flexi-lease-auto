@@ -1,0 +1,23 @@
+meta {
+  name: Update User
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:3000/api/v1/user/:id
+  body: json
+  auth: Bearer token
+}
+
+body:json {
+  {
+    "name": "Joãozinho Ciclano",
+    "cpf": "131.147.860-49",
+    "birth": "03/03/2000",
+    "email": "joazinho@email.com",
+    "password": "123456",
+    "cep": "01001000",
+    "qualified": "sim"
+  }
+}
