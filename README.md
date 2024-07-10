@@ -46,7 +46,6 @@ Este projeto consiste no desenvolvimento de uma API Restful utilizando Node.js e
    cd flexi-lease-auto
 Instale as dependências:
 
-sh
 npm install
 Configure as variáveis de ambiente:
 Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
@@ -60,16 +59,15 @@ Suba um contâiner do docker rodando o comando docker compose up -d
 
 Inicie o servidor:
 
-sh
 npm run start
 
 Testes
 Para rodar os testes, utilize:
-sh
+
 npm run test
 
 Ou em modo watch
-sh 
+
 npm run test:watch
 
 Documentação
