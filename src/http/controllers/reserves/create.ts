@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Request, Response } from 'express'
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
 import { TypeOrmReservesRepository } from '../../../repositories/typeorm/typeorm-reserve-repository'
 import { CreateReserveUseCase } from '../../../use-cases/reserves/create-reserve'
 import { TypeOrmCarsRepository } from '../../../repositories/typeorm/typeorm-cars-repository'
@@ -18,9 +18,20 @@ export class CreateReserveController {
     const userId = req.body.userId
 
     const createReserveSchema = z.object({
-      start_date: z.string(),
-      end_date: z.string(),
-      car_id: z.string(),
+      start_date: z.string({
+        required_error: 'O campo start_date é obrigatório',
+        invalid_type_error:
+          'O campo start_date deve ser uma string em formato de data, ex: 25/04/2005',
+      }),
+      end_date: z.string({
+        required_error: 'O campo end_date é obrigatório',
+        invalid_type_error:
+          'O campo end_date deve ser uma string em formato de data, ex: 25/04/2005',
+      }),
+      car_id: z.string({
+        required_error: 'O campo car_id é obrigatório',
+        invalid_type_error: 'O campo car_id deve ser uma string',
+      }),
     })
 
     try {
@@ -47,6 +58,9 @@ export class CreateReserveController {
 
       return res.status(201).json(reserve)
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
       return res.status(400).json({ error: error.message })
     }
   }

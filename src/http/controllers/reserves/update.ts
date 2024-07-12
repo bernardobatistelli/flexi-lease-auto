@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Request, Response } from 'express'
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
 import { UpdateReserveUseCase } from '../../../use-cases/reserves/update-reserve'
 import { TypeOrmReservesRepository } from '../../../repositories/typeorm/typeorm-reserve-repository'
 
@@ -11,11 +11,23 @@ export class UpdateReserveController {
     const updateReserveUseCase = new UpdateReserveUseCase(reservesRepository)
 
     const updateReserveSchema = z.object({
-      start_date: z.string(),
-      end_date: z.string(),
-      final_value: z.string(),
-      id_car: z.string(),
-      id_user: z.string(),
+      start_date: z.string({
+        invalid_type_error:
+          'O campo start_date deve ser uma string em formato de data, ex: 25/04/2005',
+      }),
+      end_date: z.string({
+        invalid_type_error:
+          'O campo end_date deve ser uma string em formato de data, ex: 25/04/2005',
+      }),
+      final_value: z.string({
+        invalid_type_error: 'O campo final_value deve ser uma string',
+      }),
+      id_car: z.string({
+        invalid_type_error: 'O campo id_car deve ser uma string',
+      }),
+      id_user: z.string({
+        invalid_type_error: 'O campo id_user deve ser uma string',
+      }),
     })
     try {
       const { end_date, final_value, start_date, id_car, id_user } =
@@ -34,6 +46,9 @@ export class UpdateReserveController {
 
       return res.status(201).json(reserve)
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
       return res.status(400).json({ error: error.message })
     }
   }
