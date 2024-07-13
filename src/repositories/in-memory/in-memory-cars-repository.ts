@@ -2,7 +2,6 @@ import { CreateCarDto } from '../../@types/DTOs/cars/create-car-dto'
 import { UpdateAccessoryDTO } from '../../@types/DTOs/cars/update-accessory-dto'
 import { UpdateCarDto } from '../../@types/DTOs/cars/update-car-dto'
 import { ICar } from '../../@types/interfaces/car-interface'
-import { IAcessory } from '../../@types/interfaces/update-accessory'
 import { CarsRepository } from '../cars-repository'
 import { randomUUID } from 'node:crypto'
 
@@ -10,13 +9,13 @@ export class InMemoryCarsRepository implements CarsRepository {
   public items: ICar[] = []
 
   async findById(id: string) {
-    const user = this.items.find((item) => item.id === id)
+    const car = this.items.find((item) => item.id === id)
 
-    if (!user) {
+    if (!car) {
       return null
     }
 
-    return user
+    return car
   }
 
   async findAll() {
@@ -65,25 +64,29 @@ export class InMemoryCarsRepository implements CarsRepository {
 
   async updateAccessory(
     data: UpdateAccessoryDTO,
-    id: string,
-  ): Promise<IAcessory | null> {
-    const car = this.items.find((item) => item.id === id)
+    index: number,
+  ): Promise<ICar | null> {
+    const car = this.items.find((item) => data.car_id === item.id)
 
     if (!car) {
       return null
     }
 
-    const accessory = car.accessories.find(
-      (accessory) => accessory.description === data.description,
+    const accessoryIndex = car.accessories.findIndex(
+      (accessory) => accessory[index] === index,
     )
 
-    if (!accessory) {
+    if (accessoryIndex === -1) {
       return null
     }
 
+    const accessory = car.accessories[accessoryIndex]
+
     accessory.description = data.description
 
-    return accessory
+    Object.assign(car, accessory)
+
+    return car
   }
 
   async save(car: ICar): Promise<ICar> {

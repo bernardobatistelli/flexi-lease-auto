@@ -29,16 +29,21 @@ export class CreateCarController {
         required_error: 'O campo value_per_day é obrigatório',
         invalid_type_error: 'O campo value_per_day deve ser um número',
       }),
-      accessories: z.array(
-        z.object({
-          description: z.string({
-            invalid_type_error: 'O campo description deve ser uma string',
+      accessories: z
+        .array(
+          z.object({
+            description: z.string({
+              invalid_type_error: 'O campo description deve ser uma string',
+              required_error: 'Pelo menos um acessório é obrigatório',
+            }),
           }),
+          {
+            required_error: 'Pelo menos um acessório é obrigatório',
+          },
+        )
+        .nonempty({
+          message: 'Pelo menos um acessório é obrigatório',
         }),
-        {
-          required_error: 'Pelo menos um acessório é obrigatório',
-        },
-      ),
       number_of_passengers: z.number({
         required_error: 'O campo number_of_passengers é obrigatório',
         invalid_type_error: 'O campo number_of_passengers deve ser um número',
@@ -72,6 +77,8 @@ export class CreateCarController {
         number_of_passengers,
         value_per_day,
       })
+
+      console.log(car.accessories[0])
 
       return res.status(201).json(car)
     } catch (error) {

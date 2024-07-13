@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { z, ZodError } from 'zod'
 import { TypeOrmUsersRepository } from '../../../repositories/typeorm/typeorm-users-repository'
 import { CreateUserUseCase } from '../../../use-cases/users/create-user'
+import { UnderageError } from '../../../use-cases/errors/underage'
 
 export class CreateUserController {
   async execute(req: Request, res: Response) {
@@ -66,11 +67,11 @@ export class CreateUserController {
       const parsedData = cepResponseSchema.parse(data)
 
       const location: locationDetails = {
-        complement: parsedData.complemento,
-        locality: parsedData.localidade,
-        uf: parsedData.uf,
-        neighborhood: parsedData.bairro,
-        patio: parsedData.logradouro,
+        complement: parsedData.complemento ? parsedData.complemento : 'N/A',
+        locality: parsedData.localidade ? parsedData.localidade : 'N/A',
+        uf: parsedData.uf ? parsedData.uf : 'N/A',
+        neighborhood: parsedData.bairro ? parsedData.bairro : 'N/A',
+        patio: parsedData.logradouro ? parsedData.logradouro : 'N/A',
       }
 
       const user = await createUserUseCase.execute({
@@ -89,7 +90,12 @@ export class CreateUserController {
       if (error instanceof ZodError) {
         return res.status(400).json({ error: error.flatten().fieldErrors })
       }
-      return res.status(400).json({ error })
+      if (error instanceof UnderageError) {
+        // console.log(error)
+        return res.status(400).json({ error: error.name })
+      }
+      console.log(error)
+      return res.status(400).json({ error: error.message })
     }
   }
 }

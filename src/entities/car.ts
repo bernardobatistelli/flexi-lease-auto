@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { Column, Entity, Generated, ObjectIdColumn, OneToMany } from 'typeorm'
+import { Column, Entity, ObjectIdColumn, OneToMany } from 'typeorm'
 import { Reserve } from './reserve'
 
 @Entity()
@@ -20,8 +20,10 @@ export class Car {
   value_per_day: number
 
   @Column()
-  @Generated('rowid')
-  accessories: { description: string }[]
+  accessories: {
+    description: string
+    id: string
+  }[]
 
   @Column()
   number_of_passengers: number
