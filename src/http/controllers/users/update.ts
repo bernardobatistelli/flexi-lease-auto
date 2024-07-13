@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { z, ZodError } from 'zod'
 import { TypeOrmUsersRepository } from '../../../repositories/typeorm/typeorm-users-repository'
 import { UpdateUserUseCase } from '../../../use-cases/users/update-user'
+import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found'
 
 export class UpdateUserController {
   async execute(req: Request, res: Response) {
@@ -90,6 +91,9 @@ export class UpdateUserController {
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
+      if (error instanceof ResourceNotFoundError) {
+        return res.status(404).json({ error: error.message })
       }
       return res.status(400).json({ error: error.message })
     }

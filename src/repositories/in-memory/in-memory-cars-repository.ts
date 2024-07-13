@@ -72,19 +72,13 @@ export class InMemoryCarsRepository implements CarsRepository {
       return null
     }
 
-    const accessoryIndex = car.accessories.findIndex(
-      (accessory) => accessory[index] === index,
-    )
+    const accessory = car.accessories[index]
 
-    if (accessoryIndex === -1) {
+    if (!accessory) {
       return null
     }
 
-    const accessory = car.accessories[accessoryIndex]
-
     accessory.description = data.description
-
-    Object.assign(car, accessory)
 
     return car
   }

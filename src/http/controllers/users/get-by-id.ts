@@ -2,6 +2,7 @@
 import { Request, Response } from 'express'
 import { TypeOrmUsersRepository } from '../../../repositories/typeorm/typeorm-users-repository'
 import { GetUserByIdUseCase } from '../../../use-cases/users/get-user-by-id'
+import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found'
 
 export class GetUserByIdController {
   async execute(req: Request, res: Response) {
@@ -15,12 +16,10 @@ export class GetUserByIdController {
 
       return res.status(200).json(user)
     } catch (error) {
-      switch (error.message) {
-        case 'Resource not found':
-          return res.status(404).json({})
-        default:
-          return res.status(400).json({ error: error.message })
+      if (error instanceof ResourceNotFoundError) {
+        return res.status(404).json({ error: error.message })
       }
+      return res.status(400).json({ error: error.message })
     }
   }
 }

@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { z, ZodError } from 'zod'
 import { UpdateReserveUseCase } from '../../../use-cases/reserves/update-reserve'
 import { TypeOrmReservesRepository } from '../../../repositories/typeorm/typeorm-reserve-repository'
+import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found'
 
 export class UpdateReserveController {
   async execute(req: Request, res: Response) {
@@ -48,6 +49,9 @@ export class UpdateReserveController {
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
+      if (error instanceof ResourceNotFoundError) {
+        return res.status(404).json({ error: error.message })
       }
       return res.status(400).json({ error: error.message })
     }

@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { z, ZodError } from 'zod'
 import { TypeOrmCarsRepository } from '../../../repositories/typeorm/typeorm-cars-repository'
 import { UpdateCarUseCase } from '../../../use-cases/cars/update-car'
+import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found'
 
 export class UpdateCarController {
   async execute(req: Request, res: Response) {
@@ -74,6 +75,9 @@ export class UpdateCarController {
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
+      if (error instanceof ResourceNotFoundError) {
+        return res.status(404).json({ error: error.message })
       }
       return res.status(400).json({ error: error.message })
     }
