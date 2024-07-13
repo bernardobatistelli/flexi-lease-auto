@@ -25,5 +25,5 @@ export interface CarsRepository {
     data: UpdateAccessoryDTO,
     id: string,
   ): Promise<IAcessory | null>
-  save(user: ICar): Promise<ICar>
+  save(car: ICar): Promise<ICar>
 }

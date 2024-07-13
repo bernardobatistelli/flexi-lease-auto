@@ -10,6 +10,10 @@ export class UpdateCarController {
 
     const updateCarUseCase = new UpdateCarUseCase(carsRepository)
 
+    const reqParamsSchema = z.string({
+      message: 'Nenhum carro com esse id existe',
+    })
+
     const updateCarSchema = z.object({
       model: z.string({
         invalid_type_error: 'O campo model deve ser uma string',
@@ -52,11 +56,11 @@ export class UpdateCarController {
         })
         .filter(Boolean)
 
-      const id = req.params.id
+      const id = reqParamsSchema.parse(req.params.id)
 
       const car = await updateCarUseCase.execute({
-        model,
         id,
+        model,
         color,
         year,
         accessories: accessoriesParsed.map((desc) => {

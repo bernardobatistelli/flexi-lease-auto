@@ -7,7 +7,7 @@ export class UpdateCarUseCase {
   constructor(private carsRepository: CarsRepository) {}
 
   async execute(data: UpdateCarDto): Promise<ICar> {
-    const car = await this.carsRepository.update(data)
+    const car = await this.carsRepository.save(data)
 
     return car
   }

@@ -26,8 +26,23 @@ export class TypeOrmCarsRepository implements CarsRepository {
     return car as unknown as ICar
   }
 
-  public async save(car: ICar): Promise<ICar> {
-    return this.ormRepository.save(car)
+  public async save(car: UpdateCarDto): Promise<ICar | null> {
+    const actualCar = await this.ormRepository.findOne({
+      where: {
+        _id: new ObjectId(car.id),
+      },
+    })
+
+    if (!actualCar) {
+      return null
+    }
+
+    const updatedCar = await this.ormRepository.save({
+      ...actualCar,
+      ...car,
+    })
+
+    return updatedCar
   }
 
   public async findAll({

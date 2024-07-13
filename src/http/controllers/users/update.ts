@@ -68,11 +68,11 @@ export class UpdateUserController {
         uf,
       } = updateUserSchema.parse(req.body)
 
-      const _id = req.params.id
+      const id = req.params.id
 
       const user = await updateUserUseCase.execute({
+        id,
         birth,
-        _id,
         cep,
         cpf,
         qualified,

@@ -33,10 +33,27 @@ export class TypeOrmReservesRepository implements ReservesRepository {
     return reserve as unknown as IReserve
   }
 
-  public async save(reserve: IReserve): Promise<IReserve> {
-    await this.ormRepository.save(reserve as unknown as Reserve)
+  public async save(reserve: UpdateReserverDTO): Promise<IReserve | null> {
+    const actualReserve = await this.ormRepository.findOne({
+      where: {
+        _id: new ObjectId(reserve.id),
+      },
+    })
 
-    return reserve
+    if (!actualReserve) {
+      return null
+    }
+
+    const updatedReserve = await this.ormRepository.save({
+      ...actualReserve,
+      ...reserve,
+      final_value: Number(reserve.final_value),
+    })
+
+    return {
+      ...updatedReserve,
+      final_value: updatedReserve.final_value.toString(),
+    } as unknown as IReserve
   }
 
   public async findAll({

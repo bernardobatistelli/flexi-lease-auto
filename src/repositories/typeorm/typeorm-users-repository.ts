@@ -36,10 +36,23 @@ export class TypeOrmUsersRepository implements UsersRepository {
     return user as unknown as IUser
   }
 
-  async update(data: UpdateUserDTO): Promise<IUser> {
-    const user = await this.ormRepository.save(data)
+  async update(data: UpdateUserDTO): Promise<IUser | null> {
+    const actualUser = await this.ormRepository.findOne({
+      where: {
+        _id: new ObjectId(data.id),
+      },
+    })
 
-    return user as unknown as IUser
+    if (!actualUser) {
+      return null
+    }
+
+    const updatedUser = await this.ormRepository.save({
+      ...actualUser,
+      ...data,
+    })
+
+    return { ...updatedUser, _id: updatedUser._id.toString() } as IUser
   }
 
   async delete(id: string): Promise<void> {
