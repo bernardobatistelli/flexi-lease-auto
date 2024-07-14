@@ -34,7 +34,6 @@ describe('Delete car (e2e)', () => {
       .send({
         model: 'Hilux',
         color: 'Black 2.8',
-        year_per_day: 50,
         value_per_day: 30,
         year: '2020',
         accessories: [

@@ -18,8 +18,6 @@ describe('Register user (e2e)', () => {
 
     const userId = await response.body._id
 
-    console.log(response.body.name)
-
     await request.delete(`/api/v1/user/${userId}`)
     expect(response.statusCode).toEqual(201)
   })

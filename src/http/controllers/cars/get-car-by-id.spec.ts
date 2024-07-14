@@ -34,7 +34,6 @@ describe('Get car by id (e2e)', () => {
       .send({
         model: 'Elantra',
         color: 'Green',
-        year_per_day: 50,
         value_per_day: 30,
         year: '2022',
         accessories: [

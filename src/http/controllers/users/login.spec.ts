@@ -26,7 +26,6 @@ describe('Login (e2e)', () => {
       password: userPassword,
     })
 
-    console.log(user.body.token)
     expect(user.body.token).toBeDefined()
     await request.delete(`/api/v1/user/${userId}`)
   })

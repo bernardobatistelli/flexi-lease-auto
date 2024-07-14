@@ -2,15 +2,15 @@ import supertest from 'supertest'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 const request = supertest('http://localhost:3000')
 
-describe('Update accessory (e2e)', () => {
+describe('Create reserve (e2e)', () => {
   beforeAll(() => {})
   afterEach(() => {})
-  it('should be able to update a car accessory', async () => {
+  it('should be able to create a reserve', async () => {
     const response = await request.post('/api/v1/user').send({
       name: 'Bezao',
-      cpf: '333.333.222-16',
+      cpf: '333.111.100-16',
       birth: '04/04/2000',
-      email: 'fffffff@xample.com',
+      email: 'aaaaaa@xample.com',
       password: '654321',
       cep: '99709-292',
       qualified: true,
@@ -32,8 +32,8 @@ describe('Update accessory (e2e)', () => {
       .post('/api/v1/car')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        model: 'Golzinho',
-        color: 'Branco',
+        model: 'Astra Malvadão',
+        color: 'Prata',
         value_per_day: 30,
         year: '2022',
         accessories: [
@@ -48,38 +48,27 @@ describe('Update accessory (e2e)', () => {
       })
 
     const carId = await car.body._id
-
-    expect(car.body).toBeDefined()
-    expect(car.body.model).toBe('Golzinho')
-    expect(car.body.color).toBe('Branco')
-
-    const updatedCar = await request
-      .put(`/api/v1/car/${carId}`)
+    const reserve = await request
+      .post('/api/v1/reserve')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        model: 'Golf GTI',
-        color: 'Preto',
-        value_per_day: 30,
-        year: '2022',
-        accessories: [
-          {
-            description: 'aizaaaa',
-          },
-          {
-            description: 'fodaaaaa',
-          },
-        ],
-        number_of_passengers: 5,
+        start_date: '20/04/2023',
+        end_date: '30/04/2023',
+        car_id: `${carId}`,
       })
 
-    expect(updatedCar.body.model).toBe('Golf GTI')
-    expect(updatedCar.body.color).toBe('Preto')
+    const reserveId = await reserve.body._id
 
+    expect(reserve.body).toBeDefined()
+    expect(reserve.body.final_value).toBe(300)
     await request
       .delete(`/api/v1/car/${carId}`)
       .set('Authorization', `Bearer ${token}`)
     await request
       .delete(`/api/v1/user/${userId}`)
+      .set('Authorization', `Bearer ${token}`)
+    await request
+      .delete(`/api/v1/reserve/${reserveId}`)
       .set('Authorization', `Bearer ${token}`)
   })
 })
