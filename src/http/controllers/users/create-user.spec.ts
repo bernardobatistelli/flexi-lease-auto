@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 const request = supertest('http://localhost:3000')
 
-describe('Register (e2e)', () => {
+describe('Register user (e2e)', () => {
   beforeAll(async () => {})
   afterEach(() => {})
   it('should be able to register', async () => {
