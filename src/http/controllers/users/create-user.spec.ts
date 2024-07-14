@@ -1,10 +1,8 @@
 import supertest from 'supertest'
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 const request = supertest('http://localhost:3000')
 
 describe('Register user (e2e)', () => {
-  beforeAll(async () => {})
-  afterEach(() => {})
   it('should be able to register', async () => {
     const response = await request.post('/api/v1/user').send({
       name: 'Bezao',

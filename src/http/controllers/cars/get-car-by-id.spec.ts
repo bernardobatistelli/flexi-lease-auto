@@ -1,10 +1,8 @@
 import supertest from 'supertest'
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 const request = supertest('http://localhost:3000')
 
 describe('Get car by id (e2e)', () => {
-  beforeAll(() => {})
-  afterEach(() => {})
   it('should be able to get a car by its id', async () => {
     const response = await request.post('/api/v1/user').send({
       name: 'Bezao',

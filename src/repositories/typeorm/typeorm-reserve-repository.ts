@@ -134,19 +134,23 @@ export class TypeOrmReservesRepository implements ReservesRepository {
     await this.ormRepository.delete(id)
   }
 
-  async findConflictingReserves(
-    car_id: string,
-    startDate: string,
-    endDate: string,
-  ): Promise<IReserve[]> {
+  public async findByCarId(id: string): Promise<IReserve[] | null> {
     const reserve = await this.ormRepository.find({
       where: {
-        car_id,
-        // start_date: Equal(startDate),
-        // end_date: MoreThanOrEqual(endDate),
+        car_id: id,
       },
     })
 
-    return reserve as unknown as IReserve[]
+    return (reserve as unknown as IReserve[]) || null
+  }
+
+  public async findByUserId(id: string): Promise<IReserve[] | null> {
+    const reserve = await this.ormRepository.find({
+      where: {
+        user_id: id,
+      },
+    })
+
+    return (reserve as unknown as IReserve[]) || null
   }
 }
