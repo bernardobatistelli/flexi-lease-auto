@@ -141,6 +141,21 @@
         }
       }
     },
+    "/car/{id}/accessories/{index}": {
+      "patch": {
+        "description": "Update car accessory",
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
     "/user/": {
       "get": {
         "description": "Get a list of users",

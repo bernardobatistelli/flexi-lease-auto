@@ -10,7 +10,8 @@
     "typeorm": "typeorm-ts-node-commonjs schema:sync -d ./src/data-source.ts",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases",
-    "test:e2e": "vitest --dir src/http/controllers",
+    "test:e2e": "vitest run --dir src/http/controllers",
+    "test:e2e:watch": "vitest --dir src/http/controllers",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui"
   },
