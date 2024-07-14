@@ -2,25 +2,32 @@ import supertest from 'supertest'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 const request = supertest('http://localhost:3000')
 
-describe('Get user by id (e2e)', () => {
+describe('Login (e2e)', () => {
   beforeAll(async () => {})
   afterEach(() => {})
-  it('should be able to get an user by its id', async () => {
+  it('should be able to login', async () => {
     const response = await request.post('/api/v1/user').send({
       name: 'Bezao',
-      cpf: '000.000.100-16',
+      cpf: '001.707.100-00',
       birth: '04/04/2000',
-      email: 'sasasasae123saas13oo@xample.com',
+      email: 'asdadsdsad@xample.com',
       password: '654321',
       cep: '99709-292',
       qualified: true,
     })
 
+    const userEmail = await response.body.email
+    const userPassword = await response.body.password
+
     const userId = await response.body._id
 
-    const user = await request.get(`/api/v1/user/${userId}`)
-    expect(user.body).toBeDefined()
-    expect(user.body.name).toBe('Bezao')
+    const user = await request.post(`/api/v1/user/login`).send({
+      email: userEmail,
+      password: userPassword,
+    })
+
+    console.log(user.body.token)
+    expect(user.body.token).toBeDefined()
     await request.delete(`/api/v1/user/${userId}`)
   })
 })

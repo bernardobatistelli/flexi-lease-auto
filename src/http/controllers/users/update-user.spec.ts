@@ -8,9 +8,9 @@ describe('Update user (e2e)', () => {
   it('should be able to update an user', async () => {
     const response = await request.post('/api/v1/user').send({
       name: 'Bezao',
-      cpf: '000.000.100-16',
+      cpf: '234.235.340-16',
       birth: '04/04/2000',
-      email: 'beozasasaaao@xample.com',
+      email: 'eqweeeeeeeee@xample.com',
       password: '654321',
       cep: '99709-292',
       qualified: true,
@@ -20,9 +20,9 @@ describe('Update user (e2e)', () => {
 
     const updatedUser = await request.put(`/api/v1/user/${userId}`).send({
       name: 'Gabriel',
-      cpf: '000.000.100-16',
+      cpf: '234.235.340-16',
       birth: '04/04/2000',
-      email: 'beozaao@xample.com',
+      email: 'eqweeeeeeeee@xample.com',
       password: '654321',
       cep: '99709-292',
       qualified: true,
