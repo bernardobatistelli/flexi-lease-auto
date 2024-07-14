@@ -26,11 +26,8 @@ export class CreateCarUseCase {
       throw new SameAccessoryError()
     }
 
-    // console.log(data)
-
     const car = await this.carRepository.create(data)
 
-    console.log(car)
     return car
   }
 }

@@ -6,7 +6,6 @@ import { UpdateAccessoryDTO } from '../../@types/DTOs/cars/update-accessory-dto'
 import { UpdateCarDto } from '../../@types/DTOs/cars/update-car-dto'
 import { ICar } from '../../@types/interfaces/car-interface'
 import { IFindAllCars } from '../../@types/interfaces/find-all-cars-interface'
-import { IAcessory } from '../../@types/interfaces/update-accessory'
 import { AppDataSource } from '../../data-source'
 import { Car } from '../../entities/car'
 import { CarPaginationParms, CarsRepository } from '../cars-repository'
@@ -26,8 +25,23 @@ export class TypeOrmCarsRepository implements CarsRepository {
     return car as unknown as ICar
   }
 
-  public async save(car: ICar): Promise<ICar> {
-    return this.ormRepository.save(car)
+  public async save(car: UpdateCarDto): Promise<ICar | null> {
+    const actualCar = await this.ormRepository.findOne({
+      where: {
+        _id: new ObjectId(car.id),
+      },
+    })
+
+    if (!actualCar) {
+      return null
+    }
+
+    const updatedCar = await this.ormRepository.save({
+      ...actualCar,
+      ...car,
+    })
+
+    return updatedCar
   }
 
   public async findAll({
@@ -105,27 +119,29 @@ export class TypeOrmCarsRepository implements CarsRepository {
 
   public async updateAccessory(
     data: UpdateAccessoryDTO,
-    id: string,
-  ): Promise<IAcessory | null> {
-    const car = await this.ormRepository.findOneBy({
-      _id: new ObjectId(id),
+    index: number,
+  ): Promise<ICar | null> {
+    const car = await this.ormRepository.findOne({
+      where: {
+        _id: new ObjectId(data.car_id),
+      },
     })
     if (!car) {
       return null
     }
 
-    const accessory = car.accessories.find(
-      (accessory) => accessory.description === data.description,
-    )
+    const accessory = car.accessories[index]
 
     if (!accessory) {
       return null
     }
 
-    Object.assign(accessory, data)
+    accessory.description = data.description
+
+    Object.assign(car, accessory)
 
     await this.ormRepository.save(car)
 
-    return accessory
+    return car as unknown as ICar
   }
 }

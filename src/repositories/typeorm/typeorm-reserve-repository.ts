@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable camelcase */
 import { ObjectId } from 'mongodb'
-import { Repository } from 'typeorm'
+import {
+  Equal,
+  FindOptionsWhere,
+  LessThanOrEqual,
+  MongoRepository,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm'
 
 import { IReserve } from '../../@types/interfaces/reserve-interface'
 import { AppDataSource } from '../../data-source'
@@ -16,9 +23,12 @@ import { UpdateReserverDTO } from '../../@types/DTOs/reserves/update-reserve-dto
 
 export class TypeOrmReservesRepository implements ReservesRepository {
   private ormRepository: Repository<Reserve>
+  private mongoOrmRepository: MongoRepository<Reserve>
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository(Reserve)
+    this.ormRepository =
+      AppDataSource.getRepository(Reserve) ||
+      AppDataSource.getMongoRepository(Reserve)
   }
 
   update(data: UpdateReserverDTO): Promise<IReserve | null> {
@@ -33,10 +43,27 @@ export class TypeOrmReservesRepository implements ReservesRepository {
     return reserve as unknown as IReserve
   }
 
-  public async save(reserve: IReserve): Promise<IReserve> {
-    await this.ormRepository.save(reserve as unknown as Reserve)
+  public async save(reserve: UpdateReserverDTO): Promise<IReserve | null> {
+    const actualReserve = await this.ormRepository.findOne({
+      where: {
+        _id: new ObjectId(reserve.id),
+      },
+    })
 
-    return reserve
+    if (!actualReserve) {
+      return null
+    }
+
+    const updatedReserve = await this.ormRepository.save({
+      ...actualReserve,
+      ...reserve,
+      final_value: Number(reserve.final_value),
+    })
+
+    return {
+      ...updatedReserve,
+      final_value: updatedReserve.final_value.toString(),
+    } as unknown as IReserve
   }
 
   public async findAll({
@@ -107,8 +134,19 @@ export class TypeOrmReservesRepository implements ReservesRepository {
     await this.ormRepository.delete(id)
   }
 
-  //   public async update(data: UpdateReserveDto): Promise<IReserve> {
-  //     const reserve = await this.ormRepository.save(data)
-  //     return reserve as unknown as IReserve
-  //   }
+  async findConflictingReserves(
+    car_id: string,
+    startDate: string,
+    endDate: string,
+  ): Promise<IReserve[]> {
+    const reserve = await this.ormRepository.find({
+      where: {
+        car_id,
+        // start_date: Equal(startDate),
+        // end_date: MoreThanOrEqual(endDate),
+      },
+    })
+
+    return reserve as unknown as IReserve[]
+  }
 }

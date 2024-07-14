@@ -1,0 +1,17 @@
+meta {
+  name: Update Accessory
+  type: http
+  seq: 6
+}
+
+patch {
+  url: http://localhost:3000/api/v1/car/:id/accessories/:accessoryIndex
+  body: json
+  auth: Bearer token
+}
+
+body:json {
+  {
+    "description": "new description"
+  }
+}

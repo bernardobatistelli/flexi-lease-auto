@@ -12,9 +12,10 @@ import * as bodyParser from 'body-parser'
 import routes from './http/controllers/routes'
 import { env } from './env'
 
+export const app = express()
+
 AppDataSource.initialize()
   .then(async () => {
-    const app = express()
     app.use(bodyParser.json())
 
     app.listen(env.PORT)

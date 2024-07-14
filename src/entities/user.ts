@@ -7,40 +7,64 @@ export class User {
   @ObjectIdColumn()
   _id: ObjectId
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   name: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   cpf: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   birth: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   email: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   password: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   cep: string
 
-  @Column()
+  @Column({
+    type: 'boolean',
+  })
   qualified: boolean
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   logradouro: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   complement: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   neighborhood: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   locality: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   uf: string
 
   @OneToMany(() => Reserve, (reserve) => reserve.user, {

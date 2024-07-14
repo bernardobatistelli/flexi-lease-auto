@@ -19,5 +19,5 @@ export interface ReservesRepository {
   findById(id: string): Promise<IReserve | null>
   delete(id: string): Promise<void>
   update(data: UpdateReserverDTO): Promise<IReserve | null>
-  save(reserve: IReserve): Promise<IReserve>
+  save(reserve: UpdateReserverDTO): Promise<IReserve>
 }

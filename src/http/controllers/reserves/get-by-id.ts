@@ -2,6 +2,7 @@
 import { Request, Response } from 'express'
 import { GetReserveByIdUseCase } from '../../../use-cases/reserves/get-reserve-by-id'
 import { TypeOrmReservesRepository } from '../../../repositories/typeorm/typeorm-reserve-repository'
+import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found'
 
 export class GetReserveByIdController {
   async execute(req: Request, res: Response) {
@@ -15,12 +16,10 @@ export class GetReserveByIdController {
 
       return res.status(200).json(reserve)
     } catch (error) {
-      switch (error.message) {
-        case 'Resource not found':
-          return res.status(404).json({})
-        default:
-          return res.status(400).json({ error: error.message })
+      if (error instanceof ResourceNotFoundError) {
+        return res.status(404).json({ error: error.message })
       }
+      return res.status(400).json({ error: error.message })
     }
   }
 }

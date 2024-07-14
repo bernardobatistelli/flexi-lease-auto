@@ -3,7 +3,6 @@ import { UpdateAccessoryDTO } from '../@types/DTOs/cars/update-accessory-dto'
 import { UpdateCarDto } from '../@types/DTOs/cars/update-car-dto'
 import { ICar } from '../@types/interfaces/car-interface'
 import { IFindAllCars } from '../@types/interfaces/find-all-cars-interface'
-import { IAcessory } from '../@types/interfaces/update-accessory'
 
 export interface CarPaginationParms {
   color?: string
@@ -21,9 +20,6 @@ export interface CarsRepository {
   findById(id: string): Promise<ICar | null>
   delete(id: string): Promise<void>
   update(data: UpdateCarDto): Promise<ICar | null>
-  updateAccessory(
-    data: UpdateAccessoryDTO,
-    id: string,
-  ): Promise<IAcessory | null>
-  save(user: ICar): Promise<ICar>
+  updateAccessory(data: UpdateAccessoryDTO, index: number): Promise<ICar | null>
+  save(car: ICar): Promise<ICar>
 }

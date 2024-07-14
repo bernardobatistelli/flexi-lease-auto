@@ -8,18 +8,35 @@ export class Reserve {
   @ObjectIdColumn()
   _id: ObjectId
 
-  @Column()
-  start_date: Date
+  @Column({
+    type: 'string',
+  })
+  start_date: string
 
-  @Column()
-  end_date: Date
+  @Column({
+    type: 'string',
+  })
+  end_date: string
 
-  @Column()
-  @Column()
+  @Column({
+    type: 'number',
+  })
   final_value: number
 
-  @Column()
+  @Column({
+    type: 'number',
+  })
   number_of_passengers: number
+
+  @Column({
+    type: 'string',
+  })
+  car_id: string
+
+  @Column({
+    type: 'string',
+  })
+  user_id: string
 
   @ManyToOne(() => User, (user) => user.reserves)
   @JoinColumn({ name: 'user_id' })

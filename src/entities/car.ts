@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { Column, Entity, Generated, ObjectIdColumn, OneToMany } from 'typeorm'
+import { Column, Entity, ObjectIdColumn, OneToMany } from 'typeorm'
 import { Reserve } from './reserve'
 
 @Entity()
@@ -7,23 +7,36 @@ export class Car {
   @ObjectIdColumn()
   _id: ObjectId
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   model: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   color: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   year: string
 
-  @Column()
+  @Column({
+    type: 'number',
+  })
   value_per_day: number
 
-  @Column()
-  @Generated('rowid')
-  accessories: { description: string }[]
+  @Column({
+    type: 'nvarchar',
+  })
+  accessories: {
+    description: string
+  }[]
 
-  @Column()
+  @Column({
+    type: 'number',
+  })
   number_of_passengers: number
 
   @OneToMany(() => Reserve, (reserve) => reserve.car, { onDelete: 'CASCADE' })

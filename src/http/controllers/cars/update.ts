@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 import { Request, Response } from 'express'
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
 import { TypeOrmCarsRepository } from '../../../repositories/typeorm/typeorm-cars-repository'
 import { UpdateCarUseCase } from '../../../use-cases/cars/update-car'
+import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found'
 
 export class UpdateCarController {
   async execute(req: Request, res: Response) {
@@ -10,17 +11,33 @@ export class UpdateCarController {
 
     const updateCarUseCase = new UpdateCarUseCase(carsRepository)
 
+    const reqParamsSchema = z.string({
+      message: 'Nenhum carro com esse id existe',
+    })
+
     const updateCarSchema = z.object({
-      model: z.string(),
-      color: z.string(),
-      year: z.string(),
-      value_per_day: z.coerce.number(),
+      model: z.string({
+        invalid_type_error: 'O campo model deve ser uma string',
+      }),
+      color: z.string({
+        invalid_type_error: 'O campo color deve ser uma string',
+      }),
+      year: z.string({
+        invalid_type_error: 'O campo year deve ser uma string',
+      }),
+      value_per_day: z.coerce.number({
+        invalid_type_error: 'O campo value_per_day deve ser um número',
+      }),
       accessories: z.array(
         z.object({
-          description: z.string(),
+          description: z.string({
+            invalid_type_error: 'O campo description deve ser uma string',
+          }),
         }),
       ),
-      number_of_passengers: z.number(),
+      number_of_passengers: z.number({
+        invalid_type_error: 'O campo number_of_passengers deve ser um número',
+      }),
     })
     try {
       const {
@@ -40,11 +57,11 @@ export class UpdateCarController {
         })
         .filter(Boolean)
 
-      const id = req.params.id
+      const id = reqParamsSchema.parse(req.params.id)
 
       const car = await updateCarUseCase.execute({
-        model,
         id,
+        model,
         color,
         year,
         accessories: accessoriesParsed.map((desc) => {
@@ -56,6 +73,12 @@ export class UpdateCarController {
 
       return res.status(201).json(car)
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
+      if (error instanceof ResourceNotFoundError) {
+        return res.status(404).json({ error: error.message })
+      }
       return res.status(400).json({ error: error.message })
     }
   }
