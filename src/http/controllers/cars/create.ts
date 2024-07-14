@@ -78,8 +78,6 @@ export class CreateCarController {
         value_per_day,
       })
 
-      console.log(car.accessories[0])
-
       return res.status(201).json(car)
     } catch (error) {
       if (error instanceof ZodError) {

@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable camelcase */
 import { ObjectId } from 'mongodb'
-import { Repository } from 'typeorm'
+import {
+  Equal,
+  FindOptionsWhere,
+  LessThanOrEqual,
+  MongoRepository,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm'
 
 import { IReserve } from '../../@types/interfaces/reserve-interface'
 import { AppDataSource } from '../../data-source'
@@ -16,9 +23,12 @@ import { UpdateReserverDTO } from '../../@types/DTOs/reserves/update-reserve-dto
 
 export class TypeOrmReservesRepository implements ReservesRepository {
   private ormRepository: Repository<Reserve>
+  private mongoOrmRepository: MongoRepository<Reserve>
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository(Reserve)
+    this.ormRepository =
+      AppDataSource.getRepository(Reserve) ||
+      AppDataSource.getMongoRepository(Reserve)
   }
 
   update(data: UpdateReserverDTO): Promise<IReserve | null> {
@@ -124,8 +134,19 @@ export class TypeOrmReservesRepository implements ReservesRepository {
     await this.ormRepository.delete(id)
   }
 
-  //   public async update(data: UpdateReserveDto): Promise<IReserve> {
-  //     const reserve = await this.ormRepository.save(data)
-  //     return reserve as unknown as IReserve
-  //   }
+  async findConflictingReserves(
+    car_id: string,
+    startDate: string,
+    endDate: string,
+  ): Promise<IReserve[]> {
+    const reserve = await this.ormRepository.find({
+      where: {
+        car_id,
+        // start_date: Equal(startDate),
+        // end_date: MoreThanOrEqual(endDate),
+      },
+    })
+
+    return reserve as unknown as IReserve[]
+  }
 }

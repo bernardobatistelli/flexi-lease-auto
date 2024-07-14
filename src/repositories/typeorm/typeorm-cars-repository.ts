@@ -140,8 +140,6 @@ export class TypeOrmCarsRepository implements CarsRepository {
 
     Object.assign(car, accessory)
 
-    console.log(car)
-
     await this.ormRepository.save(car)
 
     return car as unknown as ICar

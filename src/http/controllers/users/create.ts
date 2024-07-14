@@ -91,10 +91,8 @@ export class CreateUserController {
         return res.status(400).json({ error: error.flatten().fieldErrors })
       }
       if (error instanceof UnderageError) {
-        // console.log(error)
         return res.status(400).json({ error: error.name })
       }
-      console.log(error)
       return res.status(400).json({ error: error.message })
     }
   }

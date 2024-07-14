@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm'
 import { Car } from './entities/car'
 import { User } from './entities/user'
 import { Reserve } from './entities/reserve'
+import 'reflect-metadata'
 
 export const AppDataSource = new DataSource({
   type: 'mongodb',

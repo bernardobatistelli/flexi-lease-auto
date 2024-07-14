@@ -7,25 +7,36 @@ export class Car {
   @ObjectIdColumn()
   _id: ObjectId
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   model: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   color: string
 
-  @Column()
+  @Column({
+    type: 'string',
+  })
   year: string
 
-  @Column()
+  @Column({
+    type: 'number',
+  })
   value_per_day: number
 
-  @Column()
+  @Column({
+    type: 'nvarchar',
+  })
   accessories: {
     description: string
-    id: string
   }[]
 
-  @Column()
+  @Column({
+    type: 'number',
+  })
   number_of_passengers: number
 
   @OneToMany(() => Reserve, (reserve) => reserve.car, { onDelete: 'CASCADE' })

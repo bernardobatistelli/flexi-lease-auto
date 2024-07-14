@@ -24,15 +24,9 @@ export class UpdateAccessoryController {
     try {
       const { description } = updateAccessorySchema.parse(req.body)
 
-      console.log(description)
-
       const carId = req.params.carId
 
-      console.log(carId)
-
       const accessoryIndex = Number(req.params.accessoryIndex)
-
-      console.log(accessoryIndex)
 
       const car = await updateAccessoryUseCase.execute(
         {
@@ -41,8 +35,6 @@ export class UpdateAccessoryController {
         },
         accessoryIndex,
       )
-
-      console.log(car)
 
       return res.status(201).json({ car, accessoryIndex })
     } catch (error) {

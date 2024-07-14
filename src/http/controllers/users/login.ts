@@ -37,8 +37,6 @@ export class AuthenticateUserController {
 
       const { _id } = user
 
-      console.log(_id)
-
       const token = jwt.sign({ sub: _id }, env.SECRET_KEY, {
         expiresIn: '12h',
       })
