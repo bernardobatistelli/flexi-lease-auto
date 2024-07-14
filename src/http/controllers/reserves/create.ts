@@ -11,6 +11,8 @@ import { calculateDaysBetweenDates } from '../../../utils/difference-in-days'
 import { TypeOrmUsersRepository } from '../../../repositories/typeorm/typeorm-users-repository'
 import { GetUserByIdUseCase } from '../../../use-cases/users/get-user-by-id'
 import { UnauthorizedError } from '../../../use-cases/errors/unauthorized'
+import { CarAlreadyTakenError } from '../../../use-cases/errors/car-already-taken'
+import { ReserveOnSameDayError } from '../../../use-cases/errors/reserve-on-same-day'
 
 export class CreateReserveController {
   async execute(req: Request, res: Response) {
@@ -72,6 +74,12 @@ export class CreateReserveController {
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({ error: error.flatten().fieldErrors })
+      }
+      if (
+        error instanceof CarAlreadyTakenError ||
+        error instanceof ReserveOnSameDayError
+      ) {
+        return res.status(400).json({ error: error.message })
       }
       return res.status(400).json({ error: error.message })
     }

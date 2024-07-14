@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { randomUUID } from 'crypto'
 import {
   ReservePaginationParms,
@@ -10,6 +11,14 @@ import { UpdateReserverDTO } from '../../@types/DTOs/reserves/update-reserve-dto
 
 export class InMemoryReservesRepository implements ReservesRepository {
   private items: IReserve[] = []
+
+  async findByCarId(id: string): Promise<IReserve[] | null> {
+    return this.items.filter((item) => item.id_car === id) || null
+  }
+
+  async findByUserId(id: string): Promise<IReserve[] | null> {
+    return this.items.filter((item) => item.id_user === id) || null
+  }
 
   async create(data: CreateReserverDTO): Promise<IReserve> {
     const reserve: IReserve = {

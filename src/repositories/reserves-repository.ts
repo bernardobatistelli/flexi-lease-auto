@@ -17,6 +17,8 @@ export interface ReservesRepository {
   create(data: CreateReserverDTO): Promise<IReserve>
   findAll(params: ReservePaginationParms): Promise<IFindAllReserves | null>
   findById(id: string): Promise<IReserve | null>
+  findByCarId(id: string): Promise<IReserve[] | null>
+  findByUserId(id: string): Promise<IReserve[] | null>
   delete(id: string): Promise<void>
   update(data: UpdateReserverDTO): Promise<IReserve | null>
   save(reserve: UpdateReserverDTO): Promise<IReserve>
