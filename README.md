@@ -1,7 +1,7 @@
 # API Restful para Locadora de Carros
 
 ## Descrição
-Este projeto consiste no desenvolvimento de uma API Restful utilizando Node.js e TypeScript para uma locadora de carros. A API permite operações CRUD para carros, usuários e reservas, além de autenticação JWT e paginação.
+Este projeto consiste no desenvolvimento de uma API Restful utilizando Node.js e TypeScript para uma locadora de carros. A API permite operações CRUD para carros, usuários e reservas, além de autenticação JWT, paginação e relacionamentos.
 
 ## Tecnologias Utilizadas
 - Node.js com TypeScript
